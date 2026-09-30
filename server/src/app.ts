@@ -1,15 +1,15 @@
 import cors from 'cors';
 import express from 'express';
-import helmet from 'helmet';
 
 import { type AppConfig, loadConfig } from './config/env.js';
 import { errorHandler, notFoundHandler } from './middlewares/error-handler.js';
+import { securityHeaders } from './middlewares/security-headers.js';
 import { createSnailpayRouter } from './modules/snailpay/snailpay.routes.js';
 
 export function createApp(config: AppConfig = loadConfig()) {
   const app = express();
 
-  app.use(helmet());
+  app.use(securityHeaders());
   app.use(cors({ origin: config.corsOrigin }));
   app.use(express.json({ limit: '10kb' }));
 
